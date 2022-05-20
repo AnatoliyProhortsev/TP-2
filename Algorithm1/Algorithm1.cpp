@@ -96,19 +96,25 @@ int main()
 	using prohorcev::DataStruct;
 
 	std::vector< DataStruct > data;
-	std::istringstream iss("(:\"key\"3 \"ssssssss\":\"key\"2 #c(1.0 -1.0):\"key\"1 076:)");
 
 	std::fstream file("input.txt");
 
-	std::copy(
-		std::istream_iterator< DataStruct >(file),
-		std::istream_iterator< DataStruct >(),
-		std::back_inserter(data)
-	);
+	while (!file.eof())
+	{
+		std::copy(
+			std::istream_iterator< DataStruct >(file),
+			std::istream_iterator< DataStruct >(),
+			std::back_inserter(data)
+		);
 
+		if (file.fail() && !file.eof())
+			file.clear();
+	}
+	
 	std::sort(data.begin(), data.end(), prohorcev::comp);
 
 	std::cout << "Data:\n";
+
 	std::copy(
 		std::begin(data),
 		std::end(data),
